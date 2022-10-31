@@ -1,0 +1,96 @@
+CREATE TABLE "users" (
+  "id" SERIAL PRIMARY KEY,
+  "name" varchar,
+  "age" int,
+  "email" varchar NOT NULL,
+  "password" varchar NOT NULL
+);
+
+CREATE TABLE "posts" (
+  "id" SERIAL PRIMARY KEY,
+  "title" varchar,
+  "publication" date,
+  "description" varchar,
+  "author" int,
+  "content" text
+);
+
+CREATE TABLE "tags" (
+  "id" SERIAL PRIMARY KEY,
+  "category" varchar
+);
+
+CREATE TABLE "comments" (
+  "id" SERIAL PRIMARY KEY,
+  "comment" text,
+  "publication" date
+);
+
+CREATE TABLE "rel_post_tags" (
+  "id" SERIAL PRIMARY KEY,
+  "post_id" int,
+  "tag_id" int
+);
+
+CREATE TABLE "rel_users_comments" (
+  "id" SERIAL PRIMARY KEY,
+  "user_id" int,
+  "comments_id" int
+);
+
+CREATE TABLE "rel_post_comments" (
+  "id" SERIAL PRIMARY KEY,
+  "post_id" int,
+  "comment_id" int
+);
+
+ALTER TABLE "rel_post_tags" ADD FOREIGN KEY ("tag_id") REFERENCES "tags" ("id");
+
+ALTER TABLE "rel_users_comments" ADD FOREIGN KEY ("comments_id") REFERENCES "comments" ("id");
+
+ALTER TABLE "posts" ADD FOREIGN KEY ("author") REFERENCES "users" ("id");
+
+ALTER TABLE "rel_post_tags" ADD FOREIGN KEY ("post_id") REFERENCES "posts" ("id");
+
+ALTER TABLE "rel_post_comments" ADD FOREIGN KEY ("post_id") REFERENCES "posts" ("id");
+
+ALTER TABLE "rel_users_comments" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+
+ALTER TABLE "rel_post_comments" ADD FOREIGN KEY ("comment_id") REFERENCES "comments" ("id");
+
+insert into tags (category) values 
+('news'), ('article'), ('unpublished'), ('literature'), ('science'), ('sport'), ('technology');
+
+insert into comments (comment, publication) values 
+('its very interesting', '2019-07-08'),
+('its hard for me to understand', '2020-05-23'),
+('need more research', '2020-07-14'), 
+('its great', '2021-04-05'), 
+('missing wording', '2021-12-31');
+
+insert into users (name, age, email, password) values
+('xxxtentacion', 21, 'tentacion@gmail.com', 'pass123'),
+('Jon Doe', 30, 'jondoe@gmail.com', '4321.pass'),
+('Johnatan Davis', 45, 'davis@gmail.com', 'pass.123'),
+('Lina Mejia', 24, 'lina@gmail.com', 'semeolvido123'),
+('John Maxwell', 23, 'maxjohnwell@gmail.com', '54903eirh346'),
+('Marti Birth', 38, 'marti510@gmail.com', 'micontraseña123'),
+('Sandra Bolivar', 28, 'bolivar@gmail.com', 'somos123Uno');
+
+insert into posts (title, publication, description, author, content) values
+('Regresa la inflación a la nación', '2019-05-23', 'una mirada hacia la economía de nuestra nación', 6, 'Morbi sodales tellus sit amet purus convallis laoreet. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aenean ultricies fringilla turpis, in cursus urna porttitor vel. Donec consectetur libero ex, ut semper nisi convallis sed. Proin faucibus sem non nulla cursus efficitur. Proin malesuada et lectus eget cursus. Mauris pharetra velit tellus, quis rhoncus sem ultricies nec. Mauris suscipit, mi nec ultricies gravida, leo orci finibus dui, at placerat risus dolor eget enim. Sed efficitur cursus risus et condimentum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam lobortis leo vitae quam convallis, imperdiet fringilla purus interdum. Vivamus hendrerit sem a molestie eleifend. Quisque eu volutpat sapien, et facilisis tellus.'),
+('No nos detengamos en el futuro', '2020-02-10', 'para ir más allá de la tecnología cuantica', 5, 'In in auctor lorem, et ultrices turpis. Vestibulum fringilla lorem lorem, vel consequat tortor aliquam sit amet. Aenean posuere ac elit eget eleifend. Morbi vehicula quam eget turpis laoreet, ut congue elit ultrices. Aliquam eget luctus velit. Praesent accumsan commodo metus eleifend hendrerit. Etiam eu risus nisi. Pellentesque ultrices sem ac massa euismod fermentum. Integer quis iaculis turpis, eget dapibus quam. Aenean suscipit est tristique lorem accumsan, at dapibus augue pulvinar. Maecenas non laoreet turpis. Mauris id tincidunt nisi, in feugiat purus.'),
+('El dejar de ser en la música', '2020-01-17', 'el cambio entre el ser y el personaje artistico', 1, 'Aenean ligula magna, pulvinar ut massa vitae, vestibulum ultrices mi. Mauris nec mollis sem. Praesent blandit leo elit, non euismod augue scelerisque a. Aliquam metus magna, porttitor nec dapibus ac, aliquam in sem. Duis erat nulla, tincidunt nec cursus et, pulvinar a diam. In gravida ac nisi at hendrerit. In eu mi nec justo suscipit ornare.'),
+('El lugar más alejado', '2020-03-11', 'Cuento de viajero y sus aventuras', 4, 'Integer dictum dolor in consequat dapibus. Aliquam sodales nunc ac tellus eleifend tempor. Integer id sodales tortor, sit amet lacinia magna. Phasellus ac interdum eros, nec blandit nisi. Ut congue, nunc id sagittis condimentum, turpis ipsum bibendum turpis, eu posuere purus tortor sed mi. Duis maximus eros vitae leo feugiat euismod. Mauris eleifend nibh vel nisi bibendum sodales. Aliquam vitae tincidunt augue. Quisque tempus semper mauris, ac rhoncus felis interdum vitae. Donec commodo imperdiet leo suscipit pretium. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Praesent ut erat porttitor velit ornare maximus in et metus. Pellentesque eget vestibulum justo, id volutpat neque. Praesent condimentum neque quis rhoncus pulvinar. Curabitur augue ligula, mattis vitae lectus at, efficitur facilisis tortor.'),
+('Socialismo o capitalismo', '2020-08-28', 'analisis de las dos corrientes politicas mas fuertes', 7, 'Fusce molestie, libero nec sagittis congue, tellus dolor posuere odio, ac pellentesque enim magna a dui. Sed molestie orci sit amet nibh lobortis condimentum. Maecenas hendrerit turpis urna, sed aliquet libero sollicitudin sit amet. Aenean a mi id ante condimentum dapibus. Vestibulum malesuada iaculis neque sed varius. Donec blandit massa dui, sit amet fermentum sapien dictum nec. Etiam commodo sed justo vel laoreet. Praesent tempus rhoncus massa in sodales. Pellentesque accumsan consectetur arcu, suscipit mollis dui scelerisque sed.'),
+('Solo un avatar', '2020-06-12', 'breve exposición de un nombre predeterminado', 2, 'Duis arcu augue, imperdiet vitae augue nec, interdum luctus nulla. Donec nunc nunc, interdum quis luctus non, varius ac magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis arcu in diam condimentum rhoncus sed at justo. Suspendisse id sem venenatis, venenatis tortor a, vehicula dolor. Donec augue mauris, gravida sit amet enim semper, hendrerit ullamcorper metus. Duis non fringilla tortor, nec condimentum nisi.'),
+('La palabras mas hermosas', '2021-09-18', 'cuento donde los personajes expresan su lexico', 4, 'Nam dictum interdum turpis, a malesuada velit. Duis nec vulputate nisl. In sagittis metus nec leo accumsan, convallis ultricies dui scelerisque. Donec a rutrum enim. Praesent non venenatis arcu. In nec turpis ullamcorper, dictum arcu at, imperdiet mi. Nullam lobortis varius velit, nec tempus turpis elementum id. Vivamus id ligula congue, laoreet libero eget, varius lectus. Aliquam eu dictum dolor, in hendrerit lorem. Proin vehicula arcu suscipit enim dignissim, non iaculis urna feugiat. Sed tempor aliquam ipsum tincidunt tincidunt. Praesent eget faucibus dolor. In pharetra purus sit amet condimentum suscipit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam diam enim, gravida ac erat sit amet, rhoncus pharetra justo. Aenean bibendum porta leo, vitae pharetra tellus ultricies non.');
+
+insert into rel_post_tags (post_id, tag_id) values
+(1, 1), (2, 7), (3, 2), (4, 3), (5, 2), (6, 7), (7, 4);
+
+insert into rel_users_comments (user_id, comments_id) values
+(4, 5), (7, 3), (2, 1), (1, 5), (5, 4), (3, 5), (6, 3), (3, 4), (6, 4), (4, 2), (3, 5), (2, 1), (3, 4), (6, 3);
+
+insert into rel_post_comments (post_id, comment_id) values
+(6, 4), (7, 2), (3, 5), (2, 1), (3, 4), (6, 3), (1, 5), (7, 3), (2, 1), (1, 5), (5, 4), (3, 5), (6, 3), (3, 4);
